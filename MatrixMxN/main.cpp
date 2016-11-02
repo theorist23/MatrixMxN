@@ -55,7 +55,7 @@ public:
 	//}
 };
 
-class MatrixMxN
+class MatrixMxN			//기본적으로 벡터 하나를 하나의 행으로 취급하여 가지고 있다. 벡터 하나를 하나의 열로 써야한다면 추후 수정하겠다.
 {
 public:
 	int m, n;
