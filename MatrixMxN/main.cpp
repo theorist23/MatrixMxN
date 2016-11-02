@@ -180,6 +180,5 @@ int main()
 	cout << t << endl;
 	cout << d << endl;
 	cout << e << endl;
-
 	return 0;
 }
