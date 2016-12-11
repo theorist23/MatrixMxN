@@ -8,9 +8,9 @@ class VectorND
 public:
 	int n;
 	int *num;
-	VectorND(int components)
+	VectorND(int components) : n(components)
 	{
-		n = components;
+		//n = components;
 		num = new int[n];
 		for (int i = 0;i < n;i++)
 			num[i] = rand() / (RAND_MAX / 10);
@@ -45,18 +45,18 @@ class MatrixMxN
 public:
 	int m, n;
 	VectorND *vec;
-	MatrixMxN(int rows, int columns)
+	MatrixMxN(int rows, int columns) : m(rows), n(columns)
 	{
-		m = rows;
-		n = columns;
+		//m = rows;
+		//n = columns;
 		vec = new VectorND[n];
 		for (int i = 0;i < n;i++)
 			vec[i] = VectorND(m);
 	}
-	MatrixMxN()
+	MatrixMxN() : m(1), n(1)
 	{
-		m = 1;
-		n = 1;
+		//m = 1;
+		//n = 1;
 		vec = new VectorND;
 		*vec = VectorND(m);
 	}
