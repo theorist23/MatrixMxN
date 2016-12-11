@@ -13,9 +13,7 @@ public:
 		n = components;
 		num = new int[n];
 		for (int i = 0;i < n;i++)
-		{
 			num[i] = rand() / (RAND_MAX / 10);
-		}
 	}
 
 	VectorND()
@@ -28,9 +26,7 @@ public:
 	friend ostream& operator << (ostream& os, const VectorND& dt)
 	{
 		for (int i = 0;i < dt.n;i++)
-		{
-			printf("  %-2d", dt.num[i]);
-		}
+			printf("  %-3d\n", dt.num[i]);
 		cout << endl;
 		return os;
 	}
@@ -42,20 +38,9 @@ public:
 			output.num[i] = this->num[i] + a.num[i];
 		return output;
 	}
-	//VectorND& operator*(MatrixMxN a)		//벡터 하나를 하나의 행으로 봤을 때의 곱셈
-	//{
-	//	VectorND output;
-	//	int temp = 0;
-	//	for (int k = 0; k < this->n; k++)
-	//	{
-	//		temp += this->num[k] * a.vec[k].num[0];
-	//	}
-	//	output.num[0] = temp;
-	//	return output;
-	//}
 };
 
-class MatrixMxN			//기본적으로 벡터 하나를 하나의 행으로 취급하여 가지고 있다. 벡터 하나를 하나의 열로 써야한다면 추후 수정하겠다.
+class MatrixMxN
 {
 public:
 	int m, n;
@@ -64,18 +49,16 @@ public:
 	{
 		m = rows;
 		n = columns;
-		vec = new VectorND[m];
-		for (int i = 0;i < m;i++)
-		{
-			vec[i] = VectorND(n);
-		}
+		vec = new VectorND[n];
+		for (int i = 0;i < n;i++)
+			vec[i] = VectorND(m);
 	}
 	MatrixMxN()
 	{
 		m = 1;
 		n = 1;
 		vec = new VectorND;
-		*vec = VectorND(n);
+		*vec = VectorND(m);
 	}
 
 	friend ostream& operator << (std::ostream& os, const MatrixMxN& dt)
@@ -83,9 +66,7 @@ public:
 		for (int i = 0;i < dt.m;i++)
 		{
 			for (int j = 0;j < dt.n;j++)
-			{
-				printf("  %-2d", dt.vec[i].num[j]);
-			}
+				printf("  %-3d", dt.vec[j].num[i]);
 			cout << endl;
 		}
 		return os;
@@ -95,12 +76,8 @@ public:
 	{
 		MatrixMxN output(this->m, a.n);
 		for (int i = 0;i < output.m; i++)
-		{
 			for (int j = 0; j < output.n; j++)
-			{
-				output.vec[i].num[j] = this->vec[i].num[j] + a.vec[i].num[j];
-			}
-		}
+				output.vec[j].num[i] = this->vec[j].num[i] + a.vec[j].num[i];
 		return output;
 	}
 
@@ -113,42 +90,20 @@ public:
 			{
 				int temp = 0;
 				for (int k = 0; k < this->n; k++)
-				{
-					temp += this->vec[i].num[k] * a.vec[k].num[j];
-				}
-				output.vec[i].num[j] = temp;
+					temp += this->vec[k].num[i] * a.vec[j].num[k];
+				output.vec[j].num[i] = temp;
 			}
 		}
 		return output;
 	}
-	//MatrixMxN& operator*(VectorND a)		//벡터 하나를 하나의 행으로 봤을 때의 곱셈
-	//{
-	//	MatrixMxN output(this->m, a.n);
-	//	for (int i = 0;i < output.m; i++)
-	//	{
-	//		for (int j = 0; j < output.n; j++)
-	//		{
-	//			int temp = 0;
-	//			for (int k = 0; k < this->n; k++)
-	//			{
-	//				temp += this->vec[i].num[k] * a.num[j];
-	//			}
-	//			output.vec[i].num[j] = temp;
-	//		}
-	//	}
-	//	return output;
-	//}
-	VectorND& operator*(VectorND a)		//벡터 하나를 하나의 열로 봤을 때의 곱셈
+	VectorND& operator*(VectorND a)
 	{
 		VectorND output(this->m);
 		for (int i = 0;i < this->m; i++)
 		{
-
 			int temp = 0;
 			for (int k = 0; k < this->n; k++)
-			{
-				temp += this->vec[i].num[k] * a.num[k];
-			}
+				temp += this->vec[k].num[i] * a.num[k];
 			output.num[i] = temp;
 		}
 		return output;
@@ -174,11 +129,13 @@ int main()
 	//cout << u << endl;
 	//cout << x << endl;
 
-	MatrixMxN t(5, 4);
+	MatrixMxN t(5, 4), s(4, 2), z;
 	VectorND d(4), e;
 	e = t * d;
+	z = t * s;
 	cout << t << endl;
-	cout << d << endl;
+	cout << s << endl;
 	cout << e << endl;
+	cout << z << endl;
 	return 0;
 }
